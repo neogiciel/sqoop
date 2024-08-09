@@ -1,0 +1,67 @@
+----------- Lancer -------------
+#url:
+https://github.com/kasipavankumar/sqoop-docker/pkgs/container/sqoop-docker
+
+#Image:
+docker pull ghcr.io/kasipavankumar/sqoop-docker:latest
+
+#Run:
+docker run -it ghcr.io/kasipavankumar/sqoop-docker:latest
+
+--------------- Exemple------------
+Exportation du fichier vers hdfs
+sqoop import 
+    --connect jdbc:mysql://localhost/employees 
+    --table employees 
+    --username bda 
+    --password 123456
+
+
+--------------- Exemple base Test------------
+#Creation des données dans la base
+CREATE DATABASE IF NOT EXISTS test;
+
+GRANT CREATE, ALTER, INDEX, LOCK TABLES, REFERENCES, UPDATE, DELETE, DROP, SELECT, INSERT ON `test`.* TO 'bda'@'localhost';
+FLUSH PRIVILEGES;
+
+CREATE TABLE client (
+ id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  nom VARCHAR(100),
+  email VARCHAR(100)
+);
+INSERT INTO `client` (`nom`, `email`) VALUES ('Paul', 'paul@example.com');
+INSERT INTO `client` (`nom`, `email`) VALUES ('Sandra', 'sandra@example.com');
+
+#importation vers hdfs
+sqoop import --connect jdbc:mysql://localhost/test --table client --username bda --password 123456
+
+#Test présence du fichier
+hadoop fs -ls /user/root/client
+
+#Afficher les données
+hadoop fs -cat /user/root/client/part-m-00000
+1,Paul,paul@example.com
+hadoop fs -cat /user/root/client/part-m-00001
+2,Sandra,sandra@example.com
+
+--------------- Exemple Export ------------
+#Exportation d'un fichier vers une base
+docker cp people.txt agitated_goldstine:people.txt
+hdfs dfs -mkdir -p /fichier
+hdfs dfs -put people.txt /fichier/people.txt
+
+
+#mysql
+CREATE DATABASE IF NOT EXISTS people;
+GRANT CREATE, ALTER, INDEX, LOCK TABLES, REFERENCES, UPDATE, DELETE, DROP, SELECT, INSERT ON `people`.* TO 'bda'@'localhost';
+CREATE TABLE people (
+  prenom VARCHAR(100),
+  age VARCHAR(100)
+);
+
+
+
+#export
+sqoop export --connect jdbc:mysql://localhost/people --username bda --password 123456 --table people --export-dir /fichier/people.txt
+
+
