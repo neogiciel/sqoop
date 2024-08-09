@@ -7,16 +7,22 @@
 
 ## Informations Générales
 ***
-Mise en place d'un base de données redis avec sous Quarkus.
+Le logiciel Sqoop fait partie de la Galaxie du BigData Hadoop.
+Ce logiciel permet de pouvoir exporter et importer des données entre le système de fichier HDFS et n'importe quelle base de données
 
-## Technologies
+## Docker
 ***
-Technologies utilisées:![Uploading Apache_Sqoop_logo.svg…]()
+Image Docker:
+docker pull ghcr.io/kasipavankumar/sqoop-docker:latest
+
+Run Image Docker:
+docker run -it ghcr.io/kasipavankumar/sqoop-docker:lates
+
+Cette image permet de deployer :
+* Une Infrastructure Apache Hadoop avec son système de fichier
+* Une base de données Mysql ainsi que ses données préremplit
 
 * Java 17
-* Hibernate
-* Maven 3.6
-* Quarkus: 3.6.4
 ## Instalation
 ***
 Lancement de l'application Quarkus<br>
