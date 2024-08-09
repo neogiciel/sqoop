@@ -9,13 +9,13 @@
 Le logiciel Sqoop fait partie de la Galaxie du BigData Hadoop.
 Ce logiciel permet de pouvoir exporter et importer des données entre le système de fichier HDFS et n'importe quelle base de données
 
-## Docker
+## Déploiement Docker
 ***
 Image Docker:<br/>
-*docker pull ghcr.io/kasipavankumar/sqoop-docker:latest*<br/>
+*docker pull ghcr.io/kasipavankumar/sqoop-docker:latest<br/>
 
 Run Image Docker:<br/>
-*docker run -it ghcr.io/kasipavankumar/sqoop-docker:lates*<br/>
+*docker run -it ghcr.io/kasipavankumar/sqoop-docker:latest<br/>
 
 Cette image permet de deployer :
 * Une Infrastructure Apache Hadoop avec son système de fichier
