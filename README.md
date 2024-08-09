@@ -6,7 +6,7 @@
 
 ## Informations Générales
 ***
-Le logiciel Sqoop fait partie de la Galaxie du BigData Hadoop.
+Le logiciel Sqoop fait partie de la Galaxie du BigData Hadoop.<br/>
 Ce logiciel permet de pouvoir exporter et importer des données entre le système de fichier HDFS et n'importe quelle base de données
 
 ## Déploiement Docker
