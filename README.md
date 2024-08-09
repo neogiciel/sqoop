@@ -19,23 +19,58 @@ Run Image Docker:<br/>
 ```
 docker run -it ghcr.io/kasipavankumar/sqoop-docker:latest
 ```
-
-
 Cette image permet de deployer :
 * Une Infrastructure Apache Hadoop avec son système de fichier
-* Une base de données Mysql ainsi que ses données préremplit
+* Une base de données Mysql ainsi que les données associées
 
-* Java 17
-## Instalation
+## Import
 ***
-Lancement de l'application Quarkus<br>
+Exemple d'exportation de la base de données Mysql vers HDFS de Hadoop
 ```
-$ mvn  clean
-$ mvn quarkus:dev
+Exportation du fichier vers hdfs
+sqoop import 
+    --connect jdbc:mysql://localhost/employees 
+    --table employees 
+    --username bda 
+    --password 123456
 ```
-Le service est accessible sur http://localhost:8080
+## Import avec création de Base de données
+***
+Exemple d'exportation de la base de données Mysql vers HDFS de Hadoop
+```
+#Creation des données dans la base
+CREATE DATABASE IF NOT EXISTS test;
 
-## FAQs
+GRANT CREATE, ALTER, INDEX, LOCK TABLES, REFERENCES, UPDATE, DELETE, DROP, SELECT, INSERT ON `test`.* TO 'bda'@'localhost';
+FLUSH PRIVILEGES;
+
+CREATE TABLE client (
+ id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  nom VARCHAR(100),
+  email VARCHAR(100)
+);
+INSERT INTO `client` (`nom`, `email`) VALUES ('Paul', 'paul@example.com');
+INSERT INTO `client` (`nom`, `email`) VALUES ('Sandra', 'sandra@example.com');
+```
+importation vers hdfs
+```
+sqoop import --connect jdbc:mysql://localhost/test
+	     --table client
+	     --username bda
+              --password 123456
+```
+Test de présence du fichier dans HDFS
+```
+hadoop fs -ls /user/root/client
+```
+Afficher les données
+```
+hadoop fs -cat /user/root/client/part-m-00000
+1,Paul,paul@example.com
+hadoop fs -cat /user/root/client/part-m-00001
+2,Sandra,sandra@example.com
+```
+## Exemple d'Export
 ***
 **Manager d'appel à la Base de données**
 
