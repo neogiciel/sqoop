@@ -2,7 +2,6 @@
 ***
 <table><tr>
   <td><img src="https://github.com/user-attachments/assets/62ab5754-1b98-4a7f-9059-9f434548bea7" alt="drawing" height="240px"/></td>
-
 </tr></table>
 
 ## Informations Générales
@@ -12,11 +11,11 @@ Ce logiciel permet de pouvoir exporter et importer des données entre le systèm
 
 ## Docker
 ***
-Image Docker:
-docker pull ghcr.io/kasipavankumar/sqoop-docker:latest
+Image Docker:<br/>
+*docker pull ghcr.io/kasipavankumar/sqoop-docker:latest*<br/>
 
-Run Image Docker:
-docker run -it ghcr.io/kasipavankumar/sqoop-docker:lates
+Run Image Docker:<br/>
+*docker run -it ghcr.io/kasipavankumar/sqoop-docker:lates*<br/>
 
 Cette image permet de deployer :
 * Une Infrastructure Apache Hadoop avec son système de fichier
