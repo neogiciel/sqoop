@@ -72,44 +72,33 @@ hadoop fs -cat /user/root/client/part-m-00001
 ```
 ## Exemple d'Export
 ***
-**Manager d'appel à la Base de données**
-
-L'appel au requetes se fait directement via EntityManager.
-Nous avons centralisé les requêtes dans un Manager qui permets de gérer toutes les table de notre base de données.
-Ce choix délibéré de ne pas eclater les différents appels dans différentes classe s'inspire directement de mon experience s'avere bien plus productif à long terme.
-
-Cette solution est un véritable atout en terme d ajout, de modification, d'optimisation des requêtes SQL. 
-Sachant que dans un micro service les base de données sont souvent éclatés et le nombre de table assez réduite.
-
+**Exportation d un fichier directement dans une base de données**
+Copier le fichier sur le pod
 ```
-public interface BddManager {
-    
-     /*
-     * Table Personne
-     */
-    public List<Personne> getListPersonnes();
-    public List<Personne> getListPersonnesSQL();
-    public Long addPersonne(Personne personne);
-    public Personne getPersonneFromId(int Id);
-    public void deletePersonne(int id);
-	  public void updatePersonne(Personne personne);
-	
-    /*
-     * Table Service
-     */
-    public List<Service> getListServices();
-    public Service getServiceFromId(int Id);
-    public Long addService(Service service);
-    public void deleteService(int id);
-    public void updateService(Service service);
-
-    /*
-     * Table Service Persoone
-     */
-    public List<ServicePersonne> getListPersonneFromServices(int id);
-
-}
+docker cp people.txt agitated_goldstine:people.txt
 ```
-
-
-
+Créer un dossier dans hdfs
+```
+hdfs dfs -mkdir -p /fichier
+```
+Pousser le fichier dans le cluster Hdfs
+```
+hdfs dfs -put people.txt /fichier/people.txt
+```
+Dans mysql créer la base de données ainsi que la table associé
+```
+CREATE DATABASE IF NOT EXISTS people;
+GRANT CREATE, ALTER, INDEX, LOCK TABLES, REFERENCES, UPDATE, DELETE, DROP, SELECT, INSERT ON `people`.* TO 'bda'@'localhost';
+CREATE TABLE people (
+  prenom VARCHAR(100),
+  age VARCHAR(100)
+);
+```
+Faire un export du foicher vers la base de données
+```
+sqoop export --connect jdbc:mysql://localhost/people
+	     --username bda
+             --password 123456
+             --table people
+             --export-dir /fichier/people.txt
+```
