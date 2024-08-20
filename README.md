@@ -94,7 +94,7 @@ CREATE TABLE people (
   age VARCHAR(100)
 );
 ```
-Faire un export du foicher vers la base de données
+Faire un export du ficher vers la base de données
 ```
 sqoop export --connect jdbc:mysql://localhost/people
 	     --username bda
